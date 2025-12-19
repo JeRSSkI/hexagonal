@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  api:
+    build: .
+    environment:
+      PORT: 8081
+      REPO_ADAPTER: db  # або file
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: shop
+      DB_USER: shop
+      DB_PASS: shop
+      CSV_PATH: /data/orders.csv
+    ports:
+      - "8081:8081"
+    volumes:
+      - data:/data
+    depends_on:
+      - db
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: shop
+      POSTGRES_USER: shop
+      POSTGRES_PASSWORD: shop
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+  data:
